@@ -1,0 +1,27 @@
+{
+  "name": "piotrpress/wordpress-config",
+  "type": "library",
+  "license": "MIT",
+  "description": "This library separates WordPress configuration constants from wp-config.php to .config file where they are stored in PHP associative array.",
+  "homepage": "https://PiotrPress",
+  "authors": [
+    {
+      "name": "Piotr Niewiadomski",
+      "homepage": "https://github.com/PiotrPress"
+    }
+  ],
+  "keywords": [
+    "wordpress", "wp", "config", "wp-config", "configuration"
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "PiotrPress\\WordPress\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  }
+}
