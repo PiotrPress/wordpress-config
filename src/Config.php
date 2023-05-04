@@ -2,7 +2,7 @@
 
 namespace PiotrPress\WordPress;
 
-use PiotrPress\Configer;
+use PiotrPress\Initer;
 use PiotrPress\Remoter\Url;
 use PiotrPress\Remoter\Request;
 
@@ -33,7 +33,7 @@ if ( ! \class_exists( __NAMESPACE__ . '\Config' ) ) {
             \preg_match_all("/define\('(.*)',\s*'(.*)'\);/", $response->getContent(), $matches, \PREG_SET_ORDER );
             if ( ! $matches ) throw new \RuntimeException( 'Failed to generate salts.' );
 
-            $config = new Configer( $file );
+            $config = new Initer( $file );
             foreach ( $matches as $match ) {
                 list( , $name, $value ) = $match;
                 $config[ $name ] = $value;
@@ -42,7 +42,7 @@ if ( ! \class_exists( __NAMESPACE__ . '\Config' ) ) {
         }
 
         static public function setup( string $file, array $data = [] ) : void {
-            $config = new Configer( $file, self::$defaults );
+            $config = new Initer( $file, self::$defaults );
             foreach ( $data as $name => $value ) $config[ $name ] = $value;
             if ( ! $config->save() ) throw new \RuntimeException( "Failed to save data to file: $file." );
         }
@@ -53,7 +53,10 @@ if ( ! \class_exists( __NAMESPACE__ . '\Config' ) ) {
                 self::salt( $file );
             }
 
-            foreach ( ( new Configer( $file ) ) as $name => $value )
+            foreach ( $_SERVER as $key => $value )
+                if ( ! \getenv( $key ) and ! \is_array( $value ) ) \putenv( "$key=$value" );
+
+            foreach ( \parse_ini_file( $file, false, \INI_SCANNER_TYPED ) as $name => $value )
                 if ( ! @\define( $name, $value ) ) throw new \RuntimeException( "Failed to define constant: $name." );
         }
     }

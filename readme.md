@@ -1,13 +1,13 @@
 # WordPress Config
 
-This library separates WordPress [configuration constants](https://wordpress.org/support/article/editing-wp-config-php/) from `wp-config.php` to `.config` file where they are stored in PHP associative array. 
+This library separates WordPress [configuration constants](https://wordpress.org/support/article/editing-wp-config-php/) from `wp-config.php` to `.config` file. 
 
 ## Installation via `composer.json` file
 
 ```json
 {
   "require": {
-    "piotrpress/wordpress-config": "^2.0"
+    "piotrpress/wordpress-config": "^3.0"
   },
   "scripts": {
     "post-update-cmd": "php -r \"copy('vendor/piotrpress/wordpress-config/res/wp-config.php', 'wp-config.php');\""
@@ -20,6 +20,20 @@ This library separates WordPress [configuration constants](https://wordpress.org
 ## Usage
 
 Fill in the missing configuration in `.config` file.
+
+## Example
+
+```ini
+DB_NAME=wordpress
+DB_USER="${USER}"
+DB_PASSWORD="${PASS}"
+DB_HOST=localhost
+WP_DEBUG=true
+WP_HOME="https://${SERVER_NAME}"
+WP_CONTENT_DIR="${DOCUMENT_ROOT}/wp-content"
+```
+
+**NOTE:** use `${...}` syntax to return environment or server variable.
 
 ## Resources
 
